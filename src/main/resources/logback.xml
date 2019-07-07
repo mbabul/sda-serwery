@@ -2,14 +2,13 @@
 <configuration>
     <springProperty scope="context" name="springAppName" source="spring.application.name"/>
     <property name="PATTERN" value="%d %p %c [%t] [%X] [${springAppName}] %m%n" />
+    <property name="logdir.location" value="logs"/>
 
     <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
         <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
             <Pattern>${PATTERN}</Pattern>
         </encoder>
     </appender>
-
-    <property name="logdir.location" value="logs"/>
 
     <appender name="FILE"
               class="ch.qos.logback.core.rolling.RollingFileAppender">
@@ -25,7 +24,7 @@
         </rollingPolicy>
     </appender>
 
-    <logger name="io.mbab.sda" level="info" additivity="false">
+    <logger name="io.mbab.sda" level="debug" additivity="false">
         <appender-ref ref="STDOUT"/>
         <appender-ref ref="FILE"/>
     </logger>
@@ -39,6 +38,5 @@
         <appender-ref ref="STDOUT"/>
         <appender-ref ref="FILE"/>
     </root>
-
 
 </configuration>

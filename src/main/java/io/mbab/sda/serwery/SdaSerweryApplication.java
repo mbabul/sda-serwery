@@ -9,6 +9,7 @@ import org.springframework.boot.web.servlet.support.SpringBootServletInitializer
 public class  SdaSerweryApplication extends SpringBootServletInitializer {
 
 	public static void main(String[] args) {
+		System.out.println("TEMP DIR: " + System.getProperty("java.io.tempDir"));
 		SpringApplication.run(SdaSerweryApplication.class, args);
 	}
 
