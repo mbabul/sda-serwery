@@ -1,6 +1,8 @@
 package io.mbab.sda.serwery.cities;
 
 import lombok.AllArgsConstructor;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -16,12 +18,14 @@ public class CityController {
     private CityRepository repo;
 
     @GetMapping
-    List<City> getAll() {
-        return repo.getAll();
+    HttpEntity<List<City>> getAll() {
+        return ResponseEntity.ok(repo.getAll());
     }
 
     @GetMapping("/{id}")
-    City getOne(@PathVariable long id) {
-        return repo.getOne(id);
+    HttpEntity<City> findById(@PathVariable long id) {
+        return repo.findById(id)
+                .map(ResponseEntity::ok)
+                .orElseGet(() -> ResponseEntity.notFound().build());
     }
 }

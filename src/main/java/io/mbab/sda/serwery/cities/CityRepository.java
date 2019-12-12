@@ -1,12 +1,14 @@
 package io.mbab.sda.serwery.cities;
 
 import lombok.extern.slf4j.Slf4j;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.ResultSetExtractor;
 import org.springframework.stereotype.Repository;
 
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 @Slf4j
@@ -28,21 +30,26 @@ public class CityRepository {
 
         return jdbcTemplate.query(
                 SQL_GET_ALL,
-                (resultSet, rowNum) -> City.builder()
-                        .id(resultSet.getLong("id"))
-                        .name(resultSet.getString("name"))
-                        .build());
+                (resultSet, rowNum) -> mapRow(resultSet));
     }
 
-    City getOne(long id) {
+    Optional<City> findById(long id) {
         log.debug("query for city with id: {}", id);
 
-        return jdbcTemplate.queryForObject(
+        return jdbcTemplate.query(
                 SQL_GET_ONE,
-                (resultSet, rowNum) -> City.builder()
-                        .id(resultSet.getLong("id"))
-                        .name(resultSet.getString("name"))
-                        .build(),
+                resultSet ->
+                        resultSet.next() ?
+                                Optional.of(mapRow(resultSet)) :
+                                Optional.empty(),
                 id);
     }
+
+    private City mapRow(ResultSet rs) throws SQLException {
+        return City.builder()
+                .id(rs.getLong("id"))
+                .name(rs.getString("name"))
+                .build();
+    }
+
 }
