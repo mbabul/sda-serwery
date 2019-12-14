@@ -1,6 +1,8 @@
 package io.mbab.sda.serwery.cities;
 
 import lombok.extern.slf4j.Slf4j;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.ResultSetExtractor;
 import org.springframework.stereotype.Repository;
@@ -50,6 +52,10 @@ public class CityRepository {
                 .id(rs.getLong("id"))
                 .name(rs.getString("name"))
                 .build();
+    }
+
+    public void test() throws RuntimeException {
+        throw new RuntimeException("Example exception");
     }
 
 }

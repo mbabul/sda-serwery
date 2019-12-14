@@ -17,10 +17,9 @@ public class LogController {
 
     @GetMapping("/generate")
     void generate() {
+        log.debug("Generated DEBUG log");
         log.info("Generated INFO log");
         log.warn("Generated WARN log");
         log.error("Generated ERROR log");
-        log.debug("Generated DEBUG log");
-
     }
 }
