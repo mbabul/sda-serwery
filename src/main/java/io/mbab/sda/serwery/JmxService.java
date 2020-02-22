@@ -13,20 +13,31 @@ import org.springframework.stereotype.Component;
 @Slf4j
 public class JmxService {
 
-    private LoggerContext loggerContext = (LoggerContext) LoggerFactory.getILoggerFactory();
 
     @ManagedOperation
     public void setLoggingLevel(String level) {
-        loggerContext.getLogger("io.mbab.sda.serwery")
-                .setLevel(Level.valueOf(level));
+        try {
+            LoggerContext loggerContext = (LoggerContext) LoggerFactory.getILoggerFactory();
+            loggerContext.getLogger("io.mbab.sda.serwery")
+                    .setLevel(Level.valueOf(level));
 
-        log.info("Logging level set to: {}", level);
+            log.info("Logging level set to: {}", level);
+
+        } catch (ClassCastException e) {
+            log.error(e.getLocalizedMessage());
+        }
     }
 
     @ManagedOperation
     public String getLoggingLevel() {
-        return loggerContext.getLogger("io.mbab.sda.serwery")
-                .getLevel()
-                .toString();
+        try {
+            LoggerContext loggerContext = (LoggerContext) LoggerFactory.getILoggerFactory();
+            return loggerContext.getLogger("io.mbab.sda.serwery")
+                    .getLevel()
+                    .toString();
+
+        } catch (ClassCastException e) {
+            return "";
+        }
     }
 }
